@@ -47,9 +47,9 @@ BMI = weight (kg) / (height in meters)²
 [View on Hugging Face Spaces](https://huggingface.co/spaces/Snehagkudur-01/FitnessPlan)
 
 ## 📸 Screenshots
-![Fitness Profile Form (Dark)](screenshots/app_screenshot1.png)
+![Fitness Profile Form (Dark)](Screenshots/app_screenshot1.png)
 *User-friendly fitness profile form*
-![Fitness Profile Form (Light)](screenshots/app_screenshot1.png)
+![Fitness Profile Form (Light)](Screenshots/app_screenshot1.png)
 *User-friendly fitness profile form*
 
 
@@ -62,4 +62,5 @@ BMI = weight (kg) / (height in meters)²
 - [x] BMI categorization
 - [x] Input validation
 - [x] Dark/Light mode support
+
 - [x] Profile summary display
