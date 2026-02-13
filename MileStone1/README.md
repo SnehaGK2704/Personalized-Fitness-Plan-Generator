@@ -49,7 +49,7 @@ BMI = weight (kg) / (height in meters)²
 ## 📸 Screenshots
 ![Fitness Profile Form (Dark)](Screenshots/app_screenshot1.png)
 *User-friendly fitness profile form*
-![Fitness Profile Form (Light)](Screenshots/app_screenshot1.png)
+![Fitness Profile Form (Light)](Screenshots/app_screenshot2.png)
 *User-friendly fitness profile form*
 
 
@@ -64,3 +64,4 @@ BMI = weight (kg) / (height in meters)²
 - [x] Dark/Light mode support
 
 - [x] Profile summary display
+
