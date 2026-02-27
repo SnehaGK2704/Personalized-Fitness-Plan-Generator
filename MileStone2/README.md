@@ -85,16 +85,16 @@ The model is instructed to:
 ---
 
 ## 📸 Screenshots
-![Home Page](screenshots/input.png)  
+![Home Page](Screenshots/input.png)  
 *User fitness input interface*
 
-![Generated Workout Plan](screenshots/output_starting.png)  
+![Generated Workout Plan](Screenshots/output_starting.png)  
 *AI-generated structured 5-day workout plan*
-![Generated Workout Plan](screenshots/day1.png)  
-![Generated Workout Plan](screenshots/day2.png) 
-![Generated Workout Plan](screenshots/day3n4.png) 
-![Generated Workout Plan](screenshots/day5.png)   
-![Generated Workout Plan](screenshots/output_ending.png)   
+![Generated Workout Plan](Screenshots/day1.png)  
+![Generated Workout Plan](Screenshots/day2.png) 
+![Generated Workout Plan](Screenshots/day3n4.png) 
+![Generated Workout Plan](Screenshots/day5.png)   
+![Generated Workout Plan](Screenshots/output_ending.png)   
 
 ---
 
@@ -105,4 +105,5 @@ The model is instructed to:
 - [x] BMI-based intensity adjustment  
 - [x] Error handling for inference  
 - [x] Multi-page Streamlit interface  
+
 - [x] Docker deployment on Hugging Face Spaces  
