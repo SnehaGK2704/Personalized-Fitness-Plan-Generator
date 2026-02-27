@@ -80,7 +80,7 @@ The model is instructed to:
 ---
 
 ## 🌐 Live Demo
-[View on Hugging Face Spaces](https://huggingface.co/spaces/Snehagkudur-01/FitnessPlan/tree/main)
+[View on Hugging Face Spaces](https://huggingface.co/spaces/Snehagkudur-01/FitnessPlan)
 
 ---
 
@@ -107,4 +107,5 @@ The model is instructed to:
 - [x] Multi-page Streamlit interface  
 
 - [x] Docker deployment on Hugging Face Spaces  
+
 
