@@ -85,11 +85,11 @@ The model is instructed to:
 ---
 
 ## 📸 Screenshots
-![Home Page](Screenshots/input.png)  
 *User fitness input interface*
+![Home Page](Screenshots/input.png)  
 
-![Generated Workout Plan](Screenshots/output_starting.png)  
 *AI-generated structured 5-day workout plan*
+![Generated Workout Plan](Screenshots/output_starting.png)  
 ![Generated Workout Plan](Screenshots/day1.png)  
 ![Generated Workout Plan](Screenshots/day2.png) 
 ![Generated Workout Plan](Screenshots/day3n4.png) 
@@ -107,3 +107,4 @@ The model is instructed to:
 - [x] Multi-page Streamlit interface  
 
 - [x] Docker deployment on Hugging Face Spaces  
+
