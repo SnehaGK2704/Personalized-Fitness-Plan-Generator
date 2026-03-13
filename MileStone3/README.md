@@ -158,17 +158,13 @@ Contains screenshots demonstrating the working of the application.
 
 Click the links below to view the screenshots of the application.
 
-Login Page
-(Screenshots/loginPage.png)
+[Login Page](Screenshots/loginPage.png)
 
-Signup Page
-(Screenshots/signupPage.png)
+[Signup Page](Screenshots/signupPage.png)
 
-OTP Verification Page
-(Screenshots/otp_verification.png)
+[OTP Verification Page](Screenshots/otp_verification.png)
 
-Dashboard
-(Screenshots/mainPage.png)
+[Dashboard](Screenshots/mainPage.png)
 
 
 ---
@@ -230,4 +226,5 @@ http://127.0.0.1:5000
 Sneha G Kudur
 FitPlan AI – Personalized Fitness Plan Generator
 Milestone 3 Implementation
+
 
