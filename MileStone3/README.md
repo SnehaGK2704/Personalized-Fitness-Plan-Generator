@@ -1,111 +1,234 @@
-# FitPlan AI - Milestone 2: Core AI Model Integration
+# FitPlan AI – Personalized Fitness Plan Generator
 
-## 🎯 Objective
-Integrate a pre-trained Large Language Model (LLM) into the FitPlan AI application to dynamically generate structured and personalized 5-day workout plans based on user fitness details collected in Milestone 1.
+## Milestone 3: Login System with OTP Verification
 
----
+FitPlan AI is a web application designed to generate personalized fitness plans using artificial intelligence. The application collects user fitness information and produces structured workout plans tailored to individual goals and physical characteristics.
 
-## 🤖 Model Integrated
-
-- **Model Name:** mistralai/Mistral-7B-Instruct-v0.2  
-- **Platform:** Hugging Face  
-- **Integration Method:** InferenceClient API  
-- **Authentication:** Secure API token (HF_TOKEN)
-
-The model generates customized workout plans using structured prompts.
+This milestone focuses on implementing a **secure login system with database connectivity and OTP verification** using the **Flask web framework**.
 
 ---
 
-## 🧠 Prompt Design
+# Project Objective
 
-The prompt is dynamically created using:
+The objective of this milestone is to implement a **secure authentication system** that allows users to:
 
-- Name  
-- Age  
-- Gender  
-- Height & Weight  
-- BMI and BMI Category  
-- Fitness Goal  
-- Fitness Level  
-- Available Equipment  
+* Register using their email and password
+* Log in using stored credentials
+* Verify their identity using a **6-digit OTP sent via email**
+* Access the application dashboard only after successful OTP verification
 
-The model is instructed to:
-- Generate a 5-day workout plan
-- Follow strict markdown structure
-- Adjust intensity based on BMI category and fitness level
-- Maintain consistent formatting for clean UI display
+The system ensures that only authenticated users can generate personalized fitness plans.
 
 ---
 
-## 🛠️ Steps Performed
+# Technologies Used
 
-### 1. Model Integration
-- Configured Hugging Face InferenceClient
-- Loaded Mistral-7B-Instruct-v0.2 model
-- Set generation parameters (max tokens, temperature)
-- Implemented error handling for inference issues
+### Backend
 
-### 2. Modular Prompt Creation
-- Created `prompt_builder.py`
-- Integrated BMI calculation logic
-- Dynamically structured the prompt
-- Ensured controlled markdown formatting
+Flask (Python Web Framework)
 
-### 3. AI Inference
-- Sent structured prompts to the model
-- Generated personalized workout plans
-- Displayed formatted output in Streamlit
+### Database
 
-### 4. Multi-Page UI Implementation
-- Home Page: User input form
-- Results Page: Generated workout plan
-- Used session state for data transfer
-- Maintained dark/light theme styling
+SQLite
 
-### 5. Deployment
-- Updated Docker-based Hugging Face Space
-- Configured environment variables securely
-- Successfully deployed and tested the LLM-powered app
+### Email Service
+
+Flask-Mail (for sending OTP)
+
+### Frontend
+
+HTML, CSS, JavaScript, Jinja2 Templates
+
+### AI Integration
+
+Prompt engineering and model API integration for generating personalized workout plans.
 
 ---
 
-## 💻 Technologies Used
-- **Streamlit**: Web application framework  
-- **Hugging Face InferenceClient**: Model integration  
-- **Mistral-7B-Instruct-v0.2**: Large Language Model  
-- **Docker**: Deployment container  
-- **Git/GitHub**: Version control  
-- **CSS**: Custom styling with dark/light themes  
+# Features Implemented in Milestone 3
+
+## 1. User Signup
+
+Users can register by providing:
+
+* Email ID
+* Password
+
+The credentials are stored securely in the SQLite database.
 
 ---
 
-## 🌐 Live Demo
-[View on Hugging Face Spaces](https://huggingface.co/spaces/Snehagkudur-01/FitnessPlan/tree/main)
+## 2. Login System
+
+The login system verifies user credentials by checking the entered email and password against the stored records in the database.
 
 ---
 
-## 📸 Screenshots
-*User fitness input interface*
-![Home Page](Screenshots/input.png)  
+## 3. OTP Generation
 
-*AI-generated structured 5-day workout plan*
-![Generated Workout Plan](Screenshots/output_starting.png)  
-![Generated Workout Plan](Screenshots/day1.png)  
-![Generated Workout Plan](Screenshots/day2.png) 
-![Generated Workout Plan](Screenshots/day3n4.png) 
-![Generated Workout Plan](Screenshots/day5.png)   
-![Generated Workout Plan](Screenshots/output_ending.png)   
+After successful login, the system generates a **6-digit One-Time Password (OTP)**.
+
+Example:
+
+```id="otpgen"
+otp = random.randint(100000, 999999)
+```
 
 ---
 
-## ✅ Features Implemented
-- [x] LLM integration with Hugging Face  
-- [x] Structured dynamic prompt generation  
-- [x] Personalized 5-day workout plan generation  
-- [x] BMI-based intensity adjustment  
-- [x] Error handling for inference  
-- [x] Multi-page Streamlit interface  
+## 4. OTP Email Verification
 
-- [x] Docker deployment on Hugging Face Spaces  
+The generated OTP is sent to the user's registered email using **Flask-Mail**.
 
+Users must enter the OTP to complete the login process.
 
+---
+
+## 5. Secure Dashboard Access
+
+Users can only access the application dashboard after successful OTP verification. Unauthorized users are redirected to the login page.
+
+---
+
+# System Workflow
+
+1. User signs up with email and password.
+2. User credentials are stored in the database.
+3. User logs in using registered credentials.
+4. A 6-digit OTP is generated.
+5. OTP is sent to the user's email.
+6. User enters the OTP on the verification page.
+7. If the OTP is correct, access to the dashboard is granted.
+8. The user can generate a personalized fitness plan.
+
+---
+
+# Folder Structure
+
+```id="fsstruct"
+FitPlan-AI/
+└── Milestone3/
+    ├── app.py
+    ├── database.py
+    ├── auth.py
+    ├── email_utils.py
+    ├── requirements.txt
+    ├── README.md
+    └── screenshots/
+```
+
+---
+
+# File Description
+
+### app.py
+
+Main Flask application containing routes for login, signup, OTP verification, dashboard access, and workout plan generation.
+
+### database.py
+
+Handles database connection and table creation for storing user credentials.
+
+### auth.py
+
+Contains authentication logic including:
+
+* Registering users
+* Verifying login credentials
+* Updating user profiles
+
+### email_utils.py
+
+Responsible for:
+
+* OTP generation
+* Sending OTP emails via Flask-Mail.
+
+### requirements.txt
+
+Lists all Python dependencies required to run the application.
+
+### screenshots/
+
+Contains screenshots demonstrating the working of the application.
+
+---
+
+# Screenshots
+
+Click the links below to view the screenshots of the application.
+
+Login Page
+[View Screenshot](screenshots/login.png)
+
+Signup Page
+[View Screenshot](screenshots/signup.png)
+
+OTP Verification Page
+[View Screenshot](screenshots/otp_verification.png)
+
+Dashboard
+[View Screenshot](screenshots/dashboard.png)
+
+Generated Workout Plan
+[View Screenshot](screenshots/workout_plan.png)
+
+---
+
+# Running the Application Locally
+
+### Clone the Repository
+
+```id="clonecmd"
+git clone https://github.com/YOUR_USERNAME/FitPlan-AI-Personalized-Fitness-Plan-Generator.git
+```
+
+---
+
+### Navigate to the Project Folder
+
+```id="navcmd"
+cd FitPlan-AI/Milestone3
+```
+
+---
+
+### Install Dependencies
+
+```id="instcmd"
+pip install -r requirements.txt
+```
+
+---
+
+### Run the Flask Application
+
+```id="runflaskcmd"
+python app.py
+```
+
+---
+
+### Open in Browser
+
+```id="browsercmd"
+http://127.0.0.1:5000
+```
+
+---
+
+# Future Improvements
+
+* Password hashing for stronger security
+* Multi-factor authentication
+* Fitness progress tracking
+* Nutrition and diet recommendation system
+* Mobile responsive UI improvements
+
+---
+
+# Author
+
+Sneha G Kudur
+FitPlan AI – Personalized Fitness Plan Generator
+Milestone 3 Implementation
