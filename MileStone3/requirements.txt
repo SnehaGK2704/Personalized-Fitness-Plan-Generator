@@ -1,0 +1,8 @@
+streamlit
+requests
+python-dotenv
+huggingface_hub
+Flask
+flask-mail
+requests
+gunicorn
