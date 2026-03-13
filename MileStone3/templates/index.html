@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Welcome {{ name }} 👋</h2>
+
+<p>Your AI fitness assistant is ready.</p>
+
+<div class="dashboard">
+
+<a href="/generate-workout" class="card">
+<h3>🏋 Generate Workout</h3>
+<p>Create a new AI workout plan.</p>
+</a>
+
+<a href="/current-workout" class="card">
+<h3>📋 Current Workout</h3>
+<p>View your latest workout plan.</p>
+</a>
+
+<a href="/previous-plans" class="card">
+<h3>📊 Previous Plans</h3>
+<p>See all your past workout plans.</p>
+</a>
+
+<a href="/setup-profile" class="card">
+<h3>⚙ Update Profile</h3>
+<p>Edit your fitness profile.</p>
+</a>
+
+</div>
+
+{% endblock %}

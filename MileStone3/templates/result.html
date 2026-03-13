@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Your Workout Plan</h2>
+
+<p>BMI: {{ bmi }} ({{ bmi_status }})</p>
+
+<pre>{{ plan }}</pre>
+
+<a href="/home">Generate another plan</a>
+
+{% endblock %}

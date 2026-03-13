@@ -1,0 +1,233 @@
+/* ===============================
+   GLOBAL STYLES
+================================= */
+
+* {
+    box-sizing: border-box;
+    transition: background 0.3s ease, color 0.3s ease;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 40px;
+}
+
+
+/* ===============================
+   PAGE CONTAINER
+================================= */
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 16px;
+}
+
+
+/* ===============================
+   INPUT FIELDS
+================================= */
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+label {
+    font-weight: 600;
+}
+
+
+/* ===============================
+   BUTTON
+================================= */
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+
+/* ===============================
+   RESULT BOX
+================================= */
+
+.result-box {
+    padding: 20px;
+    border-radius: 12px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+
+/* ===============================
+   🌙 DARK MODE
+================================= */
+
+@media (prefers-color-scheme: dark) {
+
+    body {
+        background: linear-gradient(135deg, #2b1e4a, #243b55, #1b998b);
+        color: white;
+    }
+
+    .container {
+        background: rgba(20,20,40,0.8);
+        backdrop-filter: blur(10px);
+    }
+
+    input, select {
+        background: #1e1e2f;
+        color: white;
+    }
+
+    button {
+        background: linear-gradient(to right, #9d4edd, #1b998b);
+        color: white;
+    }
+
+    .result-box {
+        background: #0f172a;
+    }
+}
+
+
+/* ===============================
+   ☀️ LIGHT MODE
+================================= */
+
+@media (prefers-color-scheme: light) {
+
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
+        color: #1a1a1a;
+    }
+
+    .container {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(10px);
+    }
+
+    input, select {
+        background: white;
+        color: #1a1a1a;
+        border: 1px solid #ddd;
+    }
+
+    button {
+        background: linear-gradient(to right, #00b4d8, #0077b6);
+        color: white;
+    }
+
+    .result-box {
+        background: #f1f5f9;
+    }
+}
+/* ===============================
+   CHECKBOX FIX
+================================= */
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.checkbox-group input {
+    width: auto;
+}
+/* ===============================
+   EQUIPMENT GRID
+================================= */
+
+.equipment-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 40px;
+    margin-top: 10px;
+}
+
+/* checkbox row */
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/* checkbox size fix */
+
+.checkbox-group input {
+    width: auto;
+}
+.progress-container{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+#progress-bar{
+height:12px;
+width:0%;
+border-radius:20px;
+background:linear-gradient(to right,#00b4d8,#0077b6);
+transition:width 0.3s ease;
+}
+
+.form-step{
+display:none;
+}
+
+.form-step.active{
+display:block;
+}
+
+.form-navigation{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+}
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:25px;
+border-radius:12px;
+text-decoration:none;
+color:white;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+background:rgba(255,255,255,0.1);
+}
+
+.card h3{
+margin-bottom:10px;
+}
