@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
+import os
 
 from database import create_tables
 from auth import verify_user, register_user, update_profile
@@ -185,5 +186,8 @@ def logout():
     return redirect("/")
 
 
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
