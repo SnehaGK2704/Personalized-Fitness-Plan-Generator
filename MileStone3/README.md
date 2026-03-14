@@ -162,7 +162,7 @@ Click the links below to view the screenshots of the application.
 
 [Signup Page](Screenshots/signupPage.png)
 
-[OTP Verification Page](Screenshots/otp_verification.png)
+[OTP Verification Page](Screenshots/otp_varification.png)
 
 [Dashboard](Screenshots/mainPage.png)
 
