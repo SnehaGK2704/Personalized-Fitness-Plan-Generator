@@ -1,111 +1,200 @@
-# FitPlan AI - Milestone 2: Core AI Model Integration
+# FitPlan AI – Personalized Fitness Plan Generator
 
-## 🎯 Objective
-Integrate a pre-trained Large Language Model (LLM) into the FitPlan AI application to dynamically generate structured and personalized 5-day workout plans based on user fitness details collected in Milestone 1.
+## Milestone 4: Application Finalization & Deployment
 
----
+FitPlan AI is a web application designed to generate personalized workout plans using artificial intelligence. The application collects user fitness information and produces structured workout plans tailored to individual goals and physical characteristics.
 
-## 🤖 Model Integrated
-
-- **Model Name:** mistralai/Mistral-7B-Instruct-v0.2  
-- **Platform:** Hugging Face  
-- **Integration Method:** InferenceClient API  
-- **Authentication:** Secure API token (HF_TOKEN)
-
-The model generates customized workout plans using structured prompts.
+This milestone focuses on finalizing the application, improving user experience, integrating the AI model using NVIDIA API (free endpoint), and preparing the project for deployment.
 
 ---
 
-## 🧠 Prompt Design
+# Project Objective
 
-The prompt is dynamically created using:
+The objective of this milestone is to build a complete end-to-end system that allows users to:
 
-- Name  
-- Age  
-- Gender  
-- Height & Weight  
-- BMI and BMI Category  
-- Fitness Goal  
-- Fitness Level  
-- Available Equipment  
+* Register and securely authenticate using OTP verification  
+* Log in and access a personalized dashboard  
+* Provide fitness-related inputs  
+* Generate AI-powered workout plans  
+* View structured and readable fitness plans  
 
-The model is instructed to:
-- Generate a 5-day workout plan
-- Follow strict markdown structure
-- Adjust intensity based on BMI category and fitness level
-- Maintain consistent formatting for clean UI display
+The system ensures a smooth, secure, and user-friendly experience.
 
 ---
 
-## 🛠️ Steps Performed
+# Technologies Used
 
-### 1. Model Integration
-- Configured Hugging Face InferenceClient
-- Loaded Mistral-7B-Instruct-v0.2 model
-- Set generation parameters (max tokens, temperature)
-- Implemented error handling for inference issues
+### Backend  
+Flask (Python Web Framework)
 
-### 2. Modular Prompt Creation
-- Created `prompt_builder.py`
-- Integrated BMI calculation logic
-- Dynamically structured the prompt
-- Ensured controlled markdown formatting
+### Database  
+SQLite
 
-### 3. AI Inference
-- Sent structured prompts to the model
-- Generated personalized workout plans
-- Displayed formatted output in Streamlit
+### Email Service  
+Flask-Mail (for OTP verification)
 
-### 4. Multi-Page UI Implementation
-- Home Page: User input form
-- Results Page: Generated workout plan
-- Used session state for data transfer
-- Maintained dark/light theme styling
+### Frontend  
+HTML, CSS, JavaScript, Jinja2 Templates
 
-### 5. Deployment
-- Updated Docker-based Hugging Face Space
-- Configured environment variables securely
-- Successfully deployed and tested the LLM-powered app
+### AI Integration  
+NVIDIA API (Free Endpoint)
+
+### Visualization  
+Chart.js
 
 ---
 
-## 💻 Technologies Used
-- **Streamlit**: Web application framework  
-- **Hugging Face InferenceClient**: Model integration  
-- **Mistral-7B-Instruct-v0.2**: Large Language Model  
-- **Docker**: Deployment container  
-- **Git/GitHub**: Version control  
-- **CSS**: Custom styling with dark/light themes  
+# Features Implemented in Milestone 4
+
+## 1. User Authentication System
+
+* User Signup with email and password  
+* Secure Login system  
+* OTP generation and verification  
+* Resend OTP functionality  
 
 ---
 
-## 🌐 Live Demo
-[View on Hugging Face Spaces](https://huggingface.co/spaces/Snehagkudur-01/FitnessPlan/tree/main)
+## 2. Input Validation
+
+Validation implemented for:
+
+* Age  
+* Height  
+* Weight  
+* Required fitness fields  
 
 ---
 
-## 📸 Screenshots
-*User fitness input interface*
-![Home Page](Screenshots/input.png)  
+## 3. AI Workout Plan Generation
 
-*AI-generated structured 5-day workout plan*
-![Generated Workout Plan](Screenshots/output_starting.png)  
-![Generated Workout Plan](Screenshots/day1.png)  
-![Generated Workout Plan](Screenshots/day2.png) 
-![Generated Workout Plan](Screenshots/day3n4.png) 
-![Generated Workout Plan](Screenshots/day5.png)   
-![Generated Workout Plan](Screenshots/output_ending.png)   
+* Personalized workout plans using NVIDIA API  
+* Dynamic prompt construction  
+* Structured output for readability  
 
 ---
 
-## ✅ Features Implemented
-- [x] LLM integration with Hugging Face  
-- [x] Structured dynamic prompt generation  
-- [x] Personalized 5-day workout plan generation  
-- [x] BMI-based intensity adjustment  
-- [x] Error handling for inference  
-- [x] Multi-page Streamlit interface  
+## 4. Dashboard
 
-- [x] Docker deployment on Hugging Face Spaces  
+* Displays user details  
+* Shows analytics using charts  
+* Navigation between features  
 
+---
 
+## 5. Improved UI/UX
+
+* Clean layout  
+* Structured plan display  
+* Smooth navigation  
+
+---
+
+## 6. Error Handling
+
+* Handles invalid inputs  
+* Handles API failures  
+* Displays user-friendly messages  
+
+---
+
+# System Workflow
+
+1. User signs up  
+2. User logs in  
+3. OTP is generated and sent  
+4. User verifies OTP  
+5. Dashboard access granted  
+6. User enters fitness data  
+7. AI generates workout plan  
+8. Plan is displayed  
+
+---
+# Folder Structure
+
+```bash
+FITPLAN_AI/
+├── static/
+│   ├── css/
+│   │   └── main.css
+│   └── js/
+│       └── main.js
+├── templates/
+│   ├── analytics.html
+│   ├── base.html
+│   ├── dashboard.html
+│   ├── login.html
+│   ├── otp.html
+│   ├── profile_setup.html
+│   ├── schedule.html
+│   ├── signup.html
+│   └── workout_plan.html
+├── .env
+├── app.py
+├── auth.py
+├── database.py
+├── email_utils.py
+├── model_api.py
+├── prompt_builder.py
+└── requirements.txt
+```
+
+---
+
+### screenshots/  
+Application screenshots.
+
+---
+
+# Screenshots
+
+## Login Page
+![Login Page](screenshots/loginPage.png)
+
+## Signup Page
+![Signup Page](screenshots/signupPage.png)
+
+## OTP Verification
+![OTP Verification](screenshots/otp_varification.png)
+
+## Dashboard
+![Dashboard](screenshots/mainPage.png)
+
+## Workout Plan
+![Workout Plan](screenshots/plan.png)
+
+---
+
+# Database
+
+SQLite database (`database.db`) is used for storing user data.
+
+The database is created automatically and is not included in the repository.
+
+---
+
+# Features Summary
+
+* Authentication with OTP  
+* AI-based workout generation  
+* NVIDIA API integration  
+* Input validation  
+* Dashboard with analytics  
+* Structured UI  
+* Error handling  
+
+---
+
+# Future Improvements
+
+* Add diet recommendations  
+* Improve mobile responsiveness  
+* Advanced tracking features  
+
+---
+
+# Author
+
+Sneha G Kudur  
+FitPlan AI – Personalized Fitness Plan Generator  
+Milestone 4 Implementation
