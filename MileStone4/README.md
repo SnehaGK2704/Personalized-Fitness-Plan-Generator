@@ -155,7 +155,7 @@ Application screenshots.
 ![Signup Page](Screenshots/SignUp.png)
 
 ## OTP Verification
-![OTP Verification](Screenshot/OTP_Varification.png)
+![OTP Verification](Screenshots/OTP_Varification.png)
 
 ## Dashboard
 ![Dashboard](Screenshots/Dashboard.png)
