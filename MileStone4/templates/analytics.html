@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <div class="page-label">Insights</div>
+    <div class="page-title">Analytics</div>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div class="grid-3" style="margin-bottom:24px">
+  <div class="card">
+    <div class="stat-label">Total Plans</div>
+    <div class="stat-value">{{ total_plans }}</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-label">Active Days</div>
+    <div class="stat-value">{{ active_days }}</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-label">Weight Entries</div>
+    <div class="stat-value">{{ weight_logs|length }}</div>
+  </div>
+</div>
+
+<!-- WEIGHT CHART -->
+<div class="card">
+  <div class="section-title">Weight Progress</div>
+  <div class="chart-container">
+  <canvas id="weightChart"></canvas>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const weightData = {{ weight_logs | tojson }};
+
+const labels = weightData.map(w => w[1]);
+const weights = weightData.map(w => w[0]);
+
+const ctx = document.getElementById('weightChart').getContext('2d');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Weight (kg)',
+      data: weights,
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true
+  }
+});
+</script>
+
+{% endblock %}

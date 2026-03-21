@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Verify OTP{% endblock %}
+
+{% block auth_content %}
+<div class="otp-page">
+  <div class="otp-card">
+    <div class="otp-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <h2 style="font-family:var(--font-head);font-size:22px;font-weight:800;margin-bottom:8px">OTP Verification</h2>
+    <p style="font-size:13px;color:var(--text-light)">
+      We've sent a 6-digit code to your email address.<br>Enter it below to continue.
+    </p>
+
+    <div id="error-msg" style="display:none;color:#BE123C;font-size:13px;margin-top:12px;padding:10px 14px;background:#FFF1F2;border-radius:8px;border:1px solid #FECDD3"></div>
+
+    <div class="otp-inputs">
+      <input class="otp-digit" type="text" maxlength="1" id="d0" oninput="nextDigit(this,1)" onkeydown="prevDigit(event,this,null)">
+      <input class="otp-digit" type="text" maxlength="1" id="d1" oninput="nextDigit(this,2)" onkeydown="prevDigit(event,this,0)">
+      <input class="otp-digit" type="text" maxlength="1" id="d2" oninput="nextDigit(this,3)" onkeydown="prevDigit(event,this,1)">
+      <input class="otp-digit" type="text" maxlength="1" id="d3" oninput="nextDigit(this,4)" onkeydown="prevDigit(event,this,2)">
+      <input class="otp-digit" type="text" maxlength="1" id="d4" oninput="nextDigit(this,5)" onkeydown="prevDigit(event,this,3)">
+      <input class="otp-digit" type="text" maxlength="1" id="d5" oninput="submitIfFull()" onkeydown="prevDigit(event,this,4)">
+    </div>
+
+    <button class="btn btn-primary btn-full" id="verify-btn" onclick="verifyOtp()">Verify OTP</button>
+
+    <div class="resend-text">
+      Didn't receive the code?
+      <button class="resend-btn" id="resend-btn" onclick="resendOtp()">Resend OTP</button>
+      <span id="resend-timer" style="color:var(--text-light)"></span>
+    </div>
+
+    <div style="margin-top:20px;text-align:center">
+      <a href="{{ url_for('login') }}" style="font-size:13px;color:var(--text-light);text-decoration:none">
+        <i class="fa-solid fa-arrow-left" style="margin-right:4px"></i> Back to Sign In
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACTION = "{{ action }}";
+const ENDPOINT = ACTION === "login" ? "/verify-otp-login" : "/verify-otp-signup";
+
+function nextDigit(el, next) {
+  if (el.value && next <= 5) document.getElementById('d'+next).focus();
+}
+function prevDigit(e, el, prev) {
+  if (e.key === 'Backspace' && !el.value && prev !== null) document.getElementById('d'+prev).focus();
+}
+function getOtp() {
+  return [0,1,2,3,4,5].map(i => document.getElementById('d'+i).value).join('');
+}
+function submitIfFull() {
+  if (getOtp().length === 6) verifyOtp();
+}
+
+async function verifyOtp() {
+  const otp = getOtp();
+  const btn = document.getElementById('verify-btn');
+  const err = document.getElementById('error-msg');
+  if (otp.length < 6) { showErr('Please enter all 6 digits.'); return; }
+  btn.innerHTML = '<span class="spinner"></span> Verifying...';
+  btn.disabled = true;
+  const res = await fetch(ENDPOINT, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({otp})
+  });
+  const data = await res.json();
+  if (data.success) { window.location.href = data.redirect; }
+  else {
+    showErr(data.message || 'Invalid OTP. Please try again.');
+    btn.innerHTML = 'Verify OTP'; btn.disabled = false;
+    [0,1,2,3,4,5].forEach(i => document.getElementById('d'+i).value = '');
+    document.getElementById('d0').focus();
+  }
+}
+
+function showErr(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// Resend with 60s cooldown
+let countdown = 0;
+async function resendOtp() {
+  if (countdown > 0) return;
+  const res = await fetch('/resend-otp', { method: 'POST' });
+  const data = await res.json();
+  if (data.success) {
+    countdown = 60;
+    document.getElementById('resend-btn').disabled = true;
+    const timer = setInterval(() => {
+      countdown--;
+      document.getElementById('resend-timer').textContent = ` (${countdown}s)`;
+      if (countdown <= 0) {
+        clearInterval(timer);
+        document.getElementById('resend-btn').disabled = false;
+        document.getElementById('resend-timer').textContent = '';
+      }
+    }, 1000);
+  }
+}
+
+document.getElementById('d0').focus();
+</script>
+{% endblock %}

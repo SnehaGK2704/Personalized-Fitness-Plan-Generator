@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="schedule-container">
+
+  <h2 class="page-title">Workout Schedule</h2>
+
+  <div class="progress-card">
+
+  <div class="progress-header">
+    <span>Progress</span>
+    <span>{{ completed_days }} / {{ total_days }} days</span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: {{ progress_percent }}%"></div>
+  </div>
+
+</div>
+
+  <div class="schedule-grid">
+
+    {% for day in days %}
+    {% set completed = schedule.get(day, 0) %}
+    {% set content = day_plans.get(day, "").split('\n') %}
+
+    <div class="schedule-card">
+
+      <!-- HEADER -->
+      <div class="card-top">
+        <span class="day-badge">{{ day }}</span>
+
+        {% if completed == 1 %}
+          <div class="status-icon done">✓</div>
+        {% else %}
+          <div class="status-icon pending"></div>
+        {% endif %}
+      </div>
+
+      <!-- TITLE -->
+      <div class="card-title">
+        {{ content[0] if content else "Workout" }}
+      </div>
+
+      <!-- EXERCISES -->
+      <div class="exercise-list">
+        {% for line in content[1:5] %}
+          {% if line.strip() %}
+            <div class="exercise-item">• {{ line }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- BUTTON -->
+      {% if completed == 1 %}
+        <div class="completed-bar">✔ Completed</div>
+      {% else %}
+        <button class="start-btn" onclick="toggleDay('{{ day }}')">
+          ▶ Start Workout
+        </button>
+      {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+  </div>
+</div>
+<script>
+async function toggleDay(day) {
+  try {
+    const res = await fetch("/toggle-day", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ day: day })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      location.reload(); // refresh UI
+    }
+  } catch (e) {
+    console.log("Error updating day");
+  }
+}
+</script>
+{% endblock %}

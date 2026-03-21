@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block title %}Workout Plan{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+  <div>
+    <a href="{{ url_for('dashboard') }}" style="font-size:13px;color:var(--text-light);text-decoration:none;display:flex;align-items:center;gap:6px;margin-bottom:6px">
+      <i class="fa-solid fa-chevron-left"></i> Back to Dashboard
+    </a>
+    <div class="page-title">Workout Plan</div>
+  </div>
+  <div class="avatar">{{ session.user_name[0].upper() if session.user_name else 'U' }}</div>
+</div>
+
+<!-- Generate New Plan Section -->
+<div class="generate-section">
+  <div class="generate-title"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--purple-main);margin-right:8px"></i>Generate AI Workout Plan</div>
+  <div class="generate-sub">Fill in your details and let AI create a personalized 5-day workout plan</div>
+
+  <div class="form-row" style="margin-bottom:14px">
+    <div class="form-group" style="margin-bottom:0">
+      <label class="form-label">Fitness Goal</label>
+      <select class="form-select" id="goal">
+        <option value="">Select goal...</option>
+        <option value="Weight Loss">Weight Loss</option>
+        <option value="Muscle Gain">Muscle Gain</option>
+        <option value="Endurance">Endurance</option>
+        <option value="Flexibility">Flexibility</option>
+        <option value="General Fitness">General Fitness</option>
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label class="form-label">Fitness Level</label>
+      <select class="form-select" id="fitness_level">
+        <option value="">Select level...</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group" style="margin-bottom:16px">
+    <label class="form-label">Gender</label>
+    <select class="form-select" id="gender" style="max-width:200px">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Available Equipment</label>
+    <div class="checkbox-group" id="equip-group">
+      {% for eq in ['No Equipment','Dumbbells','Barbell','Resistance Bands','Pull-up Bar','Treadmill','Gym Machine','Yoga Mat','Kettlebell'] %}
+      <label class="equip-label">
+        <input type="checkbox" value="{{ eq }}"> {{ eq }}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="generate-btn" onclick="generatePlan()" style="margin-top:4px">
+    <i class="fa-solid fa-robot"></i> Generate Plan
+  </button>
+</div>
+
+<!-- Generated Plan Output -->
+<div class="plan-output" id="plan-output" style="display:none">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div class="section-title" style="margin-bottom:0"><i class="fa-solid fa-list-check" style="color:var(--purple-main);margin-right:8px"></i>Your Personalized Plan</div>
+    <div class="bmi-badge" id="bmi-display"></div>
+  </div>
+  <pre id="plan-text"></pre>
+</div>
+
+<!-- Previous Plans -->
+{% if plans %}
+<div style="margin-top:32px">
+  <div class="section-title">Previous Plans</div>
+
+  <!-- Plan level tabs (visual) -->
+  {% set levels = plans | map(attribute=2) | list %}
+  <div class="plan-header-cards">
+    <div class="current-plan-card">
+      <div class="plan-tabs">
+        <button class="plan-tab active">7d</button>
+        <button class="plan-tab">10d</button>
+        <button class="plan-tab">15d</button>
+      </div>
+      <div class="plan-level">{{ plans[0][3] | default('Beginner') }} Level</div>
+      <div class="plan-days-label">5 Days Program</div>
+    </div>
+
+    <div class="progress-panel">
+      <div class="prog-header" style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:24px;height:24px;background:var(--purple-pale);border-radius:50%;display:flex;align-items:center;justify-content:center">
+            <i class="fa-solid fa-circle-check" style="font-size:10px;color:var(--purple-main)"></i>
+          </div>
+          <span style="font-family:var(--font-head);font-weight:700;font-size:15px">Progress</span>
+        </div>
+        <span style="font-size:12px;color:var(--text-light)">2 of 5 days</span>
+      </div>
+      <div class="progress-bar" style="height:8px"><div class="progress-fill" style="width:40%"></div></div>
+      <div style="text-align:right;font-size:12px;color:var(--text-light);margin-top:4px">40%</div>
+    </div>
+
+    <div class="calories-card">
+      <div class="cal-label"><i class="fa-solid fa-fire"></i> Total Burned</div>
+      <div class="cal-value">720</div>
+      <div class="cal-unit">Calories</div>
+    </div>
+  </div>
+
+  <!-- Day cards grid -->
+  <div class="grid-auto">
+    {% for plan in plans[:1] %}
+      {% set plan_text = plan[5] %}
+      {% set days = plan_text.split('Day ')[1:] %}
+      {% set day_colors = ['#7C22E8','#E91E8C','#06B6D4','#7C22E8','#F97316'] %}
+      {% set day_icons = ['fa-dumbbell','fa-fire','fa-person-running','fa-trophy','fa-heart-pulse'] %}
+      {% set weekdays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+      {% for i in range([days|length, 7]|min) %}
+        {% set lines = ('Day ' + days[i]).split('\n') %}
+        {% set title_line = lines[1] if lines|length > 1 else 'Workout' %}
+        {% set exercises = [] %}
+        {% for line in lines %}
+          {% if line.startswith('Exercise:') %}
+            {% set _ = exercises.append(line[9:].strip()) %}
+          {% endif %}
+        {% endfor %}
+      <div class="day-card">
+        <div class="day-card-top">
+          <div>
+            <div class="day-label">Day {{ i+1 }}
+              {% if i < 2 %}<span style="display:inline-block;width:8px;height:8px;background:var(--success);border-radius:50%;margin-left:4px"></span>{% endif %}
+            </div>
+            <div class="day-title">{{ title_line | replace('–','') | replace('-','') | trim | truncate(22, True, '') }}</div>
+            <div class="day-subtitle">{{ weekdays[i] if i < 7 else '' }}</div>
+          </div>
+          <div class="day-badge" style="background:{{ day_colors[i % 5] }}22">
+            <i class="fa-solid {{ day_icons[i % 5] }}" style="color:{{ day_colors[i % 5] }};font-size:14px"></i>
+          </div>
+        </div>
+        <div class="day-meta">
+          <span><i class="fa-regular fa-clock"></i> 40 min</span>
+          <span><i class="fa-solid fa-fire"></i> 320 cal</span>
+        </div>
+        <ul class="exercises-list">
+          {% for ex in exercises[:4] %}
+          <li>{{ ex | truncate(30, True, '…') }}</li>
+          {% endfor %}
+        </ul>
+        {% if exercises|length > 4 %}
+        <button class="more-link">+{{ exercises|length - 4 }} more exercises</button>
+        {% endif %}
+        {% if i < 2 %}
+        <div class="btn-completed"><i class="fa-solid fa-check"></i> Completed</div>
+        {% else %}
+        <button class="btn-start"><i class="fa-solid fa-play"></i> Start Workout</button>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<script>
+function toggleEquip(el) {
+  el.classList.toggle('checked');
+  el.querySelector('input').checked = el.classList.contains('checked');
+}
+
+async function generatePlan() {
+  
+  const goal = document.getElementById('goal').value;
+  const fitness_level = document.getElementById('fitness_level').value;
+  const gender = document.getElementById('gender').value;
+  const equipment = [...document.querySelectorAll('#equip-group input:checked')].map(c => c.value);
+  console.log(equipment);
+  const btn = document.getElementById('generate-btn');
+  if (!goal || !fitness_level) { showToast('Please select a goal and fitness level.', 'error'); return; }
+  btn.innerHTML = '<span class="spinner"></span> Generating your plan...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('/workout-plan', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({goal, fitness_level, gender, equipment})
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('plan-output').style.display = 'block';
+      document.getElementById('plan-text').textContent = data.plan;
+      document.getElementById('bmi-display').innerHTML = `<i class="fa-solid fa-scale-balanced"></i> BMI: ${data.bmi} – ${data.bmi_status}`;
+      document.getElementById('plan-output').scrollIntoView({behavior:'smooth'});
+      showToast('Plan generated successfully!', 'success');
+    }
+  } catch(e) { showToast('Failed to generate plan.', 'error'); }
+  btn.innerHTML = '<i class="fa-solid fa-robot"></i> Generate Plan';
+  btn.disabled = false;
+}
+</script>
+{% endblock %}

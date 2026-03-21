@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Create Account{% endblock %}
+
+{% block auth_content %}
+<div class="auth-page">
+  <div class="auth-container">
+    <!-- LEFT: Form -->
+    <div class="auth-left">
+      <h1 class="auth-heading">Create Account</h1>
+      <p class="auth-sub">Start your fitness journey today</p>
+
+      <div id="error-msg" style="display:none;color:#BE123C;font-size:13px;margin-bottom:12px;padding:10px 14px;background:#FFF1F2;border-radius:8px;border:1px solid #FECDD3"></div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-user input-icon"></i>
+          <input type="text" id="name" class="form-input" placeholder="Enter your full name"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-envelope input-icon"></i>
+          <input type="email" id="email" class="form-input" placeholder="Enter your email"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input type="password" id="password" class="form-input" placeholder="Create a password"/>
+          <button class="toggle-pw" onclick="togglePw('password',this)" type="button">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input type="password" id="confirm_password" class="form-input" placeholder="Confirm your password"/>
+          <button class="toggle-pw" onclick="togglePw('confirm_password',this)" type="button">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-check" style="margin-bottom:20px">
+        <input type="checkbox" id="agree">
+        I agree to the <a href="#" class="link-purple">Terms of Service</a> and <a href="#" class="link-purple">Privacy Policy</a>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="signup-btn" onclick="doSignup()">
+        Create Account
+      </button>
+
+      <div class="divider">Or sign up with</div>
+
+      <div class="social-btns">
+        <button class="social-btn">
+          <img src="https://www.google.com/favicon.ico" width="16"> Google
+        </button>
+        <button class="social-btn">
+          <i class="fa-brands fa-facebook" style="color:#1877F2"></i> Facebook
+        </button>
+      </div>
+
+      <div class="auth-footer">
+        Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+      </div>
+    </div>
+    <!-- RIGHT: Brand Panel -->
+    <div class="auth-right auth-right-pink">
+      <div class="auth-brand-icon"><i class="fa-solid fa-circle-dot"></i></div>
+      <div class="auth-welcome">Join Us Today!</div>
+      <div class="auth-tagline">Start tracking your fitness goals and connect with friends</div>
+      <div class="auth-img-box">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Gym"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function doSignup() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm_password').value;
+  const agree = document.getElementById('agree').checked;
+  const btn = document.getElementById('signup-btn');
+  if (!name || !email || !password) { showErr('Please fill in all fields.'); return; }
+  if (password !== confirm) { showErr('Passwords do not match.'); return; }
+  if (!agree) { showErr('Please agree to the Terms of Service.'); return; }
+  btn.innerHTML = '<span class="spinner"></span> Creating account...';
+  btn.disabled = true;
+  const res = await fetch('/signup', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({name, email, password})
+  });
+  const data = await res.json();
+  if (data.success) { window.location.href = data.redirect; }
+  else { showErr(data.message || 'Signup failed.'); btn.innerHTML = 'Create Account'; btn.disabled = false; }
+}
+function showErr(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg; el.style.display = 'block';
+}
+</script>
+{% endblock %}
