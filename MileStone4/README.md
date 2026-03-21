@@ -149,19 +149,30 @@ Application screenshots.
 # Screenshots
 
 ## Login Page
-![Login Page](screenshots/loginPage.png)
+![Login Page](Screenshots/SignIn.png)
 
 ## Signup Page
-![Signup Page](screenshots/signupPage.png)
+![Signup Page](Screenshots/SignUp.png)
 
 ## OTP Verification
-![OTP Verification](screenshots/otp_varification.png)
+![OTP Verification](Screenshot/OTP_Varification.png)
 
 ## Dashboard
-![Dashboard](screenshots/mainPage.png)
+![Dashboard](Screenshots/Dashboard.png)
 
-## Workout Plan
-![Workout Plan](screenshots/plan.png)
+## Workout Plan Generation Page
+![Workout Plan Generation Before](Screenshots/WorkoutPlan_Before.png)
+![Workout Plan Generation After](Screenshots/WorkoutPlan_After.png)
+![Personalized Plan Generated](Screenshots/Personalized_plan_generated.png)
+
+## Workout Schedule Page
+![Workout Scheduled](Screenshots/Schedule+page_before.png)
+![Completing the Schedules](Screenshots/Schedule_page_after.png)
+
+## Weight Analysis Page
+![Workout Scheduled](Screenshots/Weight_analysis.png)
+
+
 
 ---
 
